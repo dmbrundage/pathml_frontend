@@ -35,46 +35,46 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SuperpixelTransform(props) {
     const classes = useStyles();
-    const [region_size, setRegion] = React.useState(10);
+    const [region_size, setRegion] = React.useState(0);
     const [iterations, setIterations] = React.useState(0);
     //handle region size slider changes
     const handleRegionSliderChange = (event, newValue) => {
         setRegion(newValue)
-
+        props.regionsizehandler(newValue)
        
     };
 
     const handleRegionInputChange = (event) => {
         setRegion(event.target.value === '' ? '' : Number(event.target.value));
-  
+        props.regionsizehandler(event.target.value)
         
     };
 
     const handleRegion = () => {
         if (region_size < 0) {
             setRegion(0);
-        } else if (region_size > 31) {
-            setRegion(31);
+        } else if (region_size > 100) {
+            setRegion(100);
         }
     };
     //handle iterations slider changes
     const handleIterSliderChange = (event, newValue) => {
         setIterations(newValue)
-
+        props.iterationshandler(newValue)
        
     };
 
     const handleIterInputChange = (event) => {
         setIterations(event.target.value === '' ? '' : Number(event.target.value));
-  
+        props.iterationshandler(event.target.value)
         
     };
 
     const handleIter = () => {
-        if (region_size < 0) {
+        if (iterations < 0) {
             setIterations(0);
-        } else if (region_size > 31) {
-            setIterations(31);
+        } else if (iterations > 100) {
+            setIterations(100);
         }
     }
 
@@ -89,7 +89,7 @@ export default function SuperpixelTransform(props) {
                 <Grid item xs>
                     <Typography>Region Size</Typography>
                     <Slider
-                        value={typeof region_size === 'number' ? region_size : 10}
+                        value={typeof region_size === 'number' ? region_size : 0}
                         onChange={handleRegionSliderChange}
                         aria-labelledby="blur-input-slider"
                         step={5}
@@ -124,7 +124,7 @@ export default function SuperpixelTransform(props) {
             <Grid item xs>
                     <Typography>Iterations</Typography>
                     <Slider
-                        value={typeof iterations === 'number' ? iterations : 10}
+                        value={typeof iterations === 'number' ? iterations : 0}
                         onChange={handleIterSliderChange}
                         aria-labelledby="blur-input-slider"
                         step={5}

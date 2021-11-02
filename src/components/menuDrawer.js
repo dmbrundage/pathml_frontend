@@ -12,6 +12,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CustomizedSwitches from './onOffSlider';
 import Button from '@material-ui/core/Button';
+import FileUpload from './upload';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
 export default function PermanentDrawerLeft(props) {
   const classes = useStyles();
   const runCode = () => {
-    fetch('https://pathml-webapp-backend-2kbwsyfhka-uc.a.run.app/run_code/', {
+    console.log(props.iterations,props.regionsize )
+    fetch('http://localhost:5000/run_code/', {
           method: 'POST',
           headers: {
           'Accept': 'application/json',
@@ -56,12 +59,15 @@ export default function PermanentDrawerLeft(props) {
           .then(response => {
           console.log(response)
           props.processedtilehandler(response['processed_tiles'])
-      })}
+      })
+    }
     const code = {
       'blur_value': props.blurvalue,
       'blur_type': props.blurtype,
       'stain_type': props.staintype,
-      'stain_method': props.stainmethod
+      'stain_method': props.stainmethod,
+      'iterations':props.iterations,
+      'region_size':props.regionsize
 
   }
 
@@ -78,6 +84,7 @@ export default function PermanentDrawerLeft(props) {
         anchor="left"
       >
         <div className={classes.toolbar} />
+        <FileUpload/>
         <Divider />
         <List>
           {['Blur', 'Superpixel Interpolation', 'Stain Normalization'].map((text, index) => (

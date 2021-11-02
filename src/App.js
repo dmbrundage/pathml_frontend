@@ -12,7 +12,7 @@ import PrimaryAppBar from './components/appbar';
 import PermanentDrawerLeft from './components/menuDrawer';
 class App extends Component {
   componentDidMount() {
-    fetch('https://pathml-webapp-backend-2kbwsyfhka-uc.a.run.app/run_code/', {
+    fetch('http://localhost:5000/run_code/', {
       method: 'POST',
       headers: {
       'Accept': 'application/json',
@@ -40,7 +40,12 @@ class App extends Component {
     this.pixelhandler = this.pixelhandler.bind(this)
     this.stainhandler = this.stainhandler.bind(this)
     this.selecttile = this.selecttile.bind(this)
+    this.regionsizehandler = this.regionsizehandler.bind(this)
+    this.iterationshandler = this.iterationshandler.bind(this)
+
     this.state = {
+      region_size:0,
+      iterations:0,
       stain_type:'None',
       stain_method:'none',
       blur_value:0,
@@ -59,7 +64,9 @@ class App extends Component {
       "blur_value": 0,
       "blue_type": 0,
       "stain_type": "None",
-      "stain_method":"None"
+      "stain_method":"None",
+      'iterations':0,
+      'region_size':0
   },
     tiles:[],
     processed_tiles:[]
@@ -129,14 +136,26 @@ class App extends Component {
       
       
     }
-    
+    regionsizehandler = (value) => {
+      this.setState({
+        region_size: value
+      })
+      
+    }
+    iterationshandler = (value) => {
+      this.setState({
+        iterations: value
+      })
+      
+      
+    }
   render (){
   return (
     <React.Fragment>
       
    <PermanentDrawerLeft menu_params={this.state.menu_params} blurhandler={this.blurhandler} pixelhandler={this.pixelhandler} stainhandler={this.stainhandler} 
    blurtype={this.state.blur_type} blurvalue={this.state.blur_value} stainmethod={this.state.stain_method} staintype={this.state.stain_type} code_params={this.state.code_params}
-   processedtilehandler = {this.processedtilehandler}/>
+   processedtilehandler = {this.processedtilehandler} regionsize={this.state.region_size} iterations={this.state.iterations} />
 <Container>
 
 <Box my={2}>
@@ -155,7 +174,8 @@ class App extends Component {
       <Grid item xs={3}>
    <TransformsMenu menu_params={this.state.menu_params} blur={this.state.blur_param} pixel={this.state.pixel_param} stain={this.state.stain_param} 
    blurvalue={this.state.blur_value} blurtype={this.state.blur_type} blurvaluehandler={this.blurvaluehandler} blurtypehandler={this.blurtypehandler}
-   stainmethod={this.state.stain_method} staintype={this.state.stain_type} stainmethodhandler={this.stainmethodhandler} staintypehandler={this.staintypehandler}/>
+   stainmethod={this.state.stain_method} staintype={this.state.stain_type} stainmethodhandler={this.stainmethodhandler} staintypehandler={this.staintypehandler}
+   regionsize={this.state.region_size} iterations={this.state.iterations} regionsizehandler={this.regionsizehandler} iterationshandler={this.iterationshandler}/>
    </Grid>
       <Grid item xs={6}>
       <Annotate image={this.state.tiles[this.state.tile]} />

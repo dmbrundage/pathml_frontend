@@ -24,7 +24,7 @@ export default function TransformsMenu(props) {
         : console.log('this')
       }
            {props.pixel
-        ? <SuperpixelTransform />
+        ? <SuperpixelTransform regionsize={props.regionsize} iterations={props.iterations} regionsizehandler={props.regionsizehandler} iterationshandler={props.iterationshandler} />
         : console.log('this')
       }
          {props.stain
