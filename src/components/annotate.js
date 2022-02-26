@@ -64,7 +64,7 @@ function Annotate(props) {
       <img 
         ref={imgEl} 
         src={`data:image/png;base64,${props.image}`}
-        alt="Hallstatt Town Square" 
+        alt="Tile" 
         className="photo"
        />
         

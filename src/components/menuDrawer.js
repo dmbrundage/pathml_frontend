@@ -48,7 +48,7 @@ export default function PermanentDrawerLeft(props) {
   const classes = useStyles();
   const runCode = () => {
     console.log(props.iterations,props.regionsize )
-    fetch('http://localhost:5000/run_code/', {
+    fetch('http://localhost:8080/run_code/', {
           method: 'POST',
           headers: {
           'Accept': 'application/json',
@@ -59,6 +59,7 @@ export default function PermanentDrawerLeft(props) {
           .then(response => {
           console.log(response)
           props.processedtilehandler(response['processed_tiles'])
+          props.tilehandler(response['tiles'])
       })
     }
     const code = {
@@ -67,14 +68,15 @@ export default function PermanentDrawerLeft(props) {
       'stain_type': props.staintype,
       'stain_method': props.stainmethod,
       'iterations':props.iterations,
-      'region_size':props.regionsize
+      'region_size':props.regionsize,
+      'file_name':props.imagename+'.svs'
 
   }
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-
+    
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -84,7 +86,7 @@ export default function PermanentDrawerLeft(props) {
         anchor="left"
       >
         <div className={classes.toolbar} />
-        <FileUpload/>
+        <FileUpload processedtilehandler = {props.processedtilehandler} tilehandler = {props.tilehandler} filenamehandler = {props.filenamehandler} imagename={props.imagename}/>
         <Divider />
         <List>
           {['Blur', 'Superpixel Interpolation', 'Stain Normalization'].map((text, index) => (
@@ -96,7 +98,7 @@ export default function PermanentDrawerLeft(props) {
           ))}
         </List>
         <Divider />
-        <Button variant="contained"  onClick={() => runCode()}>Process</Button>
+        <Button variant="contained"  onClick={() => runCode()} style={{ background: '#CF4520' }}>Process</Button>
       </Drawer>
 
     </div>
